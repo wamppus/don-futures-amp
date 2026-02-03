@@ -58,61 +58,62 @@ class DonFuturesConfig:
     # Breakout minimum (points)
     breakout_min_pts: float = 2.0
     
-    # Risk management (points)
-    stop_pts: float = 4.0
-    target_pts: float = 4.0
+    # Risk management (points) - AMP S5/T6
+    stop_pts: float = 5.0              # -$10 (-$11.24 w/ $1.24 commission)
+    target_pts: float = 6.0            # +$12 (+$10.76 w/ $1.24 commission)
     
-    # Runner settings (adjusted for 1-min bars)
+    # Runner settings - lock profits at 5pts
     use_runner: bool = True
-    trail_activation_pts: float = 2.0   # Activate at +2 pts
-    trail_distance_pts: float = 1.5     # Trail 1.5 pts behind
+    trail_activation_pts: float = 5.0   # Activate at +5 pts
+    trail_distance_pts: float = 1.0     # Trail 1 pt behind (tight)
     
     # Time exit
     max_bars: int = 5
     
-    # Contract specs
+    # Contract specs - MNQ
     tick_size: float = 0.25
-    tick_value: float = 12.50  # ES = $12.50/tick, MES = $1.25/tick
-    point_value: float = 50.0  # ES = $50/point, MES = $5/point
+    tick_value: float = 0.50   # MNQ = $0.50/tick
+    point_value: float = 2.0   # MNQ = $2/point
     
-    # === TOPSTEP RTH SETTINGS ===
-    rth_only: bool = True              # MUST be True for TopStep
-    rth_start: time = time(9, 30)      # 9:30 AM ET
-    rth_end: time = time(16, 0)        # 4:00 PM ET
+    # === AMP 24/7 SETTINGS ===
+    rth_only: bool = False             # Trade anytime futures are open
+    rth_start: time = time(18, 0)      # 6 PM ET Sunday (futures open)
+    rth_end: time = time(17, 0)        # 5 PM ET Friday (futures close)
     flatten_before_close: int = 5      # Flatten 5 min before close
     timezone: str = "America/New_York"
     
-    # === TOPSTEP 100K RISK LIMITS ===
-    daily_loss_limit: float = 1000.0   # Stop trading at $1K loss (50% of $2K limit)
-    max_trades_per_day: int = 25       # Cap trades per session
-    contracts: int = 2                 # Start with 2 MES
-    account_size: str = "100K"         # TopStep account tier
+    # === AMP RISK LIMITS (your capital, your rules) ===
+    daily_loss_limit: float = 500.0    # Personal risk limit
+    max_trades_per_day: int = 9999     # Unlimited
+    contracts: int = 1                 # Start with 1 MNQ
+    account_size: str = "AMP"
 
 
-# TOPSTEP 100K CONFIG — RTH ONLY, MES
+# AMP 24/7 CONFIG — MNQ, TRADE ANYTIME
+# VALIDATED: Failed Test ONLY, S5/T6, $12/day on 1 MNQ
 VALIDATED_CONFIG = DonFuturesConfig(
     channel_period=10,
     enable_failed_test=True,
     enable_bounce=False,
-    enable_breakout=False,
-    trail_activation_pts=1.0,
-    trail_distance_pts=0.5,
-    stop_pts=4.0,
-    target_pts=4.0,
-    # MES contract specs (not ES)
+    enable_breakout=False,       # Disabled - dilutes edge
+    trail_activation_pts=5.0,   # Lock profits at 5 pts
+    trail_distance_pts=1.0,     # Tight 1pt trail
+    stop_pts=5.0,               # -$10 (-$11.24 after $1.24 comm)
+    target_pts=6.0,             # +$12 (+$10.76 after $1.24 comm)
+    # MNQ contract specs
     tick_size=0.25,
-    tick_value=1.25,           # MES = $1.25/tick
-    point_value=5.0,           # MES = $5/point (ES = $50)
-    # RTH settings
-    rth_only=True,
-    rth_start=time(9, 30),
-    rth_end=time(16, 0),
+    tick_value=0.50,            # MNQ = $0.50/tick
+    point_value=2.0,            # MNQ = $2/point
+    # 24/7 settings (futures hours)
+    rth_only=False,             # Trade anytime futures are open
+    rth_start=time(18, 0),      # 6 PM ET Sunday
+    rth_end=time(17, 0),        # 5 PM ET Friday
     flatten_before_close=5,
-    # TopStep 100K limits
-    daily_loss_limit=1000.0,   # 50% of $2K limit (safety buffer)
-    max_trades_per_day=25,
-    contracts=2,
-    account_size="100K"
+    # AMP — your capital, your rules
+    daily_loss_limit=500.0,     # Personal risk limit
+    max_trades_per_day=9999,    # Unlimited
+    contracts=1,
+    account_size="AMP"
 )
 
 

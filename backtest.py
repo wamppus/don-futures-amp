@@ -180,10 +180,10 @@ def parse_args():
     parser.add_argument('--no-runner', action='store_true', help='Disable trailing stop')
     parser.add_argument('--lag', type=int, default=0, help='Channel lag in bars')
     parser.add_argument('--lookback', type=int, default=10, help='Channel lookback period')
-    parser.add_argument('--stop', type=float, default=4.0, help='Stop loss in points')
-    parser.add_argument('--target', type=float, default=4.0, help='Target in points')
-    parser.add_argument('--trail-activate', type=float, default=2.0, help='Trail activation pts')
-    parser.add_argument('--trail-distance', type=float, default=1.5, help='Trail distance pts')
+    parser.add_argument('--stop', type=float, default=5.0, help='Stop loss in points')
+    parser.add_argument('--target', type=float, default=6.0, help='Target in points')
+    parser.add_argument('--trail-activate', type=float, default=5.0, help='Trail activation pts')
+    parser.add_argument('--trail-distance', type=float, default=1.0, help='Trail distance pts')
     return parser.parse_args()
 
 
