@@ -188,3 +188,32 @@ EV = $4.92 - $4.05 = +$0.87/trade
 | Date | Change |
 |------|--------|
 | 2026-02-03 | Initial strategy concept and backtest |
+
+---
+
+## Heikin Ashi Mode Results (FAILED)
+
+**DO NOT USE HEIKIN ASHI** - Generates more signals but worse quality.
+
+```
+Trades:    730,441 (580/day)
+Win Rate:  49.2% (below breakeven)
+Gross P&L: $611,493
+Commission: $905,747
+NET P&L:   -$294,254  ❌
+Per Day:   -$233.53
+```
+
+### Why HA Fails
+- HA smoothing creates MORE consecutive same-color bars
+- But the "trend" signal is lagging/artificial
+- Results in false signals that get stopped out
+- Commission on high trade count destroys P&L
+
+### Mode Comparison
+| Mode | Trades/day | WR | Net/Day |
+|------|------------|-----|---------|
+| **Standard** | 416 | 56.2% | **+$360** ✅ |
+| Heikin Ashi | 580 | 49.2% | **-$234** ❌ |
+
+**Use Standard mode only.**
